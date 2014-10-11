@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<VOTABLE version="1.2">
+    <!-- VODML PREAMBLE. MUST BE DIRECT CHILD OF VOTABLE -->
+    <!-- NOTE: VO-DML UTYPES (vo-dml:*) ONLY PERTAIN TO SERIALIZATION, NOT TO MODEL DEFINITION -->
+    <GROUP utype="vo-dml:Model">
+        <PARAM utype="vo-dml:Model.name" value="stcx" datatype="char" arraysize="*" name="name"/>
+        <PARAM utype="vo-dml:Model.version" value="X" datatype="char" arraysize="*" name="version"/>
+        <PARAM utype="vo-dml:Model.url" value="file:STC-X.vodml.xml" datatype="char" arraysize="*" name="url"/>
+    </GROUP>
+    <GROUP utype="vo-dml:Model">
+        <PARAM utype="vo-dml:Model.name" value="src" datatype="char" arraysize="*" name="name"/>
+        <PARAM utype="vo-dml:Model.version" value="X" datatype="char" arraysize="*" name="version"/>
+        <PARAM utype="vo-dml:Model.url" value="file:SourceDM-X.vodml.xml" datatype="char" arraysize="*" name="url"/>
+    </GROUP>
+
+
+    <PARAM ID="J2000" value="J2000" datatype="char" arraysize="*" name="j2000"/>
+
+    <RESOURCE>
+        <!-- DataType to GROUP in RESOURCE -->
+        <GROUP utype="vo-dml:Instance.root" ID="_icrs">
+            <PARAM utype="vo-dml:Instance.type" value="stcx:SkyCoordinateFrame" datatype="char"
+                   arraysize="*" name="type"/>
+            <!-- Attribute to PARAM -->
+            <PARAM utype="stcx:SkyCoordinateFrame.name" value="ICRS" datatype="char" arraysize="*"
+                   name="name"/>
+            <!-- Attribute to PARAMref -->
+            <PARAMref utype="stcx:SkyCoordinateFrame.equinox" ref="J2000"/>
+        </GROUP>
+
+        <!-- DataType to GROUP in RESOURCE -->
+        <GROUP utype="vo-dml:Instance.root">
+            <PARAM utype="vo-dml:Instance.type" value="stcx:SkyCoordinate" datatype="char" arraysize="*"
+                   name="type"/>
+            <PARAM name="ra" utype="stcx:SkyCoordinate.longitude" value="12.00000" datatype="float"/>
+            <PARAM name="dec" utype="stcx:SkyCoordinate.latitude" value="-12.00000" datatype="float"/>
+            <!-- Attribute to GROUPref -->
+            <GROUP ref="_icrs" utype="stcx:SkyCoordinate.frame"/>
+        </GROUP>
+
+        <TABLE>
+            <GROUP ID="_error" utype="vo-dml:Instance.root">
+                <PARAM utype="vo-dml:Instance.type" value="stcx:CircleError" datatype="char" arraysize="*"
+                       name="type"/>
+                <!-- Inheritance, although for extensions in the same model parent might be omitted -->
+                <PARAM utype="vo-dml:Instance.type" value="stcx:SkyError" datatype="char" arraysize="*"
+                       name="type"/>
+                <FIELDref ref="_error_radius" utype="stcx:CircleError.radius"/>
+            </GROUP>
+
+            <!-- ObjectType to GROUP in TABLE -->
+            <!-- Collection (Composition) -->
+            <GROUP utype="vo-dml:Instance.root">
+                <PARAM utype="vo-dml:Instance.type" value="src:Catalog" datatype="char" arraysize="*" name="type"/>
+                <PARAM utype="src:Catalog.name" value="My Catalog" datatype="char" arraysize="*" name="name"/>
+                <PARAM utype="src:Catalog.description" value="My Description" datatype="char" arraysize="*"
+                       name="description"/>
+                <GROUP utype="src:Catalog.source">
+                    <PARAM utype="vo-dml:Instance.type" value="src:Source" datatype="char" arraysize="*"
+                           name="type"/>
+                    <FIELDref ref="_designation" utype="src:Source.name"/>
+                    <!-- Attribute to GROUP in GROUP -->
+                    <GROUP utype="src:Source.position">
+                        <PARAM utype="vo-dml:Instance.type" value="stcx:SkyCoordinate" datatype="char"
+                               arraysize="*"
+                               name="type"/>
+                        <FIELDref ref="_ra" utype="stcx:SkyCoordinate.longitude"/>
+                        <FIELDref ref="_dec" utype="stcx:SkyCoordinate.latitude"/>
+                        <GROUP ref="_icrs" utype="stcx:SkyCoordinate.frame"/>
+                        <!-- Reference to ObjectType -->
+                        <GROUP ref="_error" utype="stcx:SkyCoordinate.error"/>
+                    </GROUP>
+                </GROUP>
+            </GROUP>
+
+
+            <FIELD ID="_designation" datatype="char" name="name" arraysize="*"/>
+            <FIELD ID="_ra" datatype="float" name="ra" utype="stc:AstroCoords.Position2D.Value2.C1"/>
+            <FIELD ID="_dec" datatype="float" name="dec" utype="stc:AstroCoords.Position2D.Value2.C2"/>
+            <FIELD ID="_error_radius" datatype="float" arraysize="*" name="radius"/>
+            <DATA>
+                <TABLEDATA>
+                    <TR>
+                        <TD>SOURCE_1</TD>
+                        <TD>1.0</TD>
+                        <TD>1.1</TD>
+                        <TD>0.1</TD>
+                    </TR>
+                    <TR>
+                        <TD>SOURCE_2</TD>
+                        <TD>2.0</TD>
+                        <TD>2.1</TD>
+                        <TD>0.2</TD>
+                    </TR>
+                    <TR>
+                        <TD>SOURCE_3</TD>
+                        <TD>3.0</TD>
+                        <TD>3.1</TD>
+                        <TD>0.3</TD>
+                    </TR>
+                </TABLEDATA>
+            </DATA>
+        </TABLE>
+    </RESOURCE>
+</VOTABLE>

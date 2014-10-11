@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<VOTABLE version="1.2" >
+    <GROUP utype="vo-dml:Model">
+        <PARAM utype="vo-dml:Model.name" value="stcx" datatype="char" arraysize="*" name="name"/>
+        <PARAM utype="vo-dml:Model.version" value="1.0" datatype="char" arraysize="*" name="version"/>
+        <PARAM utype="vo-dml:Model.url" value="file:STC-X.vodml.xml" datatype="char" arraysize="*" name="url"/>
+    </GROUP>
+
+    <RESOURCE>
+        <GROUP utype="vo-dml:Instance.root">
+            <PARAM utype="vo-dml:Instance.type" value="stcx:SkyCoordinate" datatype="char" arraysize="*"
+                   name="type"/>
+            <PARAM name="ra" utype="stcx:SkyCoordinate.longitude" value="12.0" datatype="float"/>
+            <PARAM name="dec" utype="stcx:SkyCoordinate.latitude" value="-12.0" datatype="float"/>
+        </GROUP>
+
+        <TABLE>
+            <GROUP utype="vo-dml:Instance.root">
+                    <PARAM utype="vo-dml:Instance.type" value="stcx:SkyCoordinate" datatype="char"
+                           arraysize="*" name="type"/>
+                    <FIELDref ref="_ra" utype="stcx:SkyCoordinate.longitude"/>
+                    <FIELDref ref="_dec" utype="stcx:SkyCoordinate.latitude"/>
+            </GROUP>
+            <FIELD ID="_ra" datatype="float" name="ra"/>
+            <FIELD ID="_dec" datatype="float" name="dec"/>
+            <DATA>
+                <TABLEDATA>
+                    <TR>
+                        <TD>1.0</TD>
+                        <TD>1.1</TD>
+                    </TR>
+                    <TR>
+                        <TD>2.0</TD>
+                        <TD>2.1</TD>
+                    </TR>
+                    <TR>
+                        <TD>3.0</TD>
+                        <TD>3.1</TD>
+                    </TR>
+                </TABLEDATA>
+            </DATA>
+        </TABLE>
+    </RESOURCE>
+</VOTABLE>
